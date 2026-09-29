@@ -12,7 +12,7 @@ const bcrypt = require('bcryptjs');
 const helmet = require('helmet');
 const { fromBuffer: fileTypeFromBuffer } = require('file-type');
 const { doubleCsrf } = require('csrf-csrf');
-const { recordFailure, isLocked, clearAttempts } = require('./Views/Middleware/LoginLimiter');
+const { recordFailure, isLocked, clearAttempts } = require('./views/middleware/loginlimiter');
 
 const app = express();
 const SHOP_NAME = 'Tewabu Shifon';
