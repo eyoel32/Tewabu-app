@@ -44,9 +44,7 @@ fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  // Cheap first-pass filter on the client-supplied mimetype. This is NOT
-  // trustworthy on its own (an attacker can lie about it) — the real check
-  // happens in validateAndSaveImages() below, against the actual file bytes.
+  
   fileFilter: (req, file, cb) => cb(null, !!ALLOWED_TYPES[file.mimetype]),
   limits: { fileSize: 5 * 1024 * 1024 },
 });
@@ -56,10 +54,6 @@ function removeFiles(names) {
   names.forEach((n) => fs.unlink(path.join(UPLOAD_DIR, n), () => {}));
 }
 
-// Inspects the real magic bytes of each uploaded buffer, rejects anything
-// that isn't actually one of the allowed image types (regardless of what
-// its filename or declared mimetype claimed), and only then writes the
-// verified files to disk under a random name.
 async function validateAndSaveImages(files) {
   const saved = [];
   try {
